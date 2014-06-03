@@ -1,0 +1,21 @@
+{% extends 'eureka/base.html' %}
+
+{% block title %}
+	Profile
+{% endblock %}
+
+{% block body_block %}
+	<div class="hero-unit">
+		<h3>Profile</h3><br>
+		<h4>{{ user.username }}</h4>
+		<p>Email: {{ user.email }}</p>
+		
+		{% if userprofile %}
+			<p>Website: <a href="{{ userprofile.website }}">{{ userprofile.website }}</a></p>
+			<br>
+			{% if userprofile.picture %}
+				<img src="{{ userprofile.picture.url }}">			
+			{% endif %}
+		{% endif %}
+	</div>
+{% endblock %}
