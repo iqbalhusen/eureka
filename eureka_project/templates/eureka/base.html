@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<!-- Bootstrap -->
+		
+		<link href="{% static 'eureka/css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+    	<link href="{% static 'eureka/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    	<link href="{% static 'eureka/css/bootstrap-responsive.css' %}" rel="stylesheet">
+		<link rel="shortcut icon" href="{% static 'eureka/img/eureka.ico'%}" />
+		
+		
+		
+		<title>
+			Eureka - 
+			{% block title %}
+				CVR e-Journal
+			{% endblock %}
+		</title>
+	</head>
+	
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="brand" href="/eureka/">Eureka!</a>
+
+					<div class="nav-collapse collapse">
+						<ul class="nav pull-right">
+							{% if user.is_authenticated %}
+								<li class="navbar-text">Welcome, {{ user.username }}!</li>
+								<li><a href="/eureka/profile">Profile</a></li>
+								<li><a href="/eureka/logout/">Logout</a></li>
+							{% else %}
+								<li><a href="/eureka/register/">Register</a></li>
+								<li><a href="/eureka/login/">Login</a></li>
+							{% endif %}
+						</ul>
+						<ul class="nav">							
+							{% if user.is_authenticated %}
+								<!--   <li><a href="/eureka/restricted/">Restricted</a></li> -->
+								<li><a href="/eureka/add_category">Add Category</a></li>
+							{% endif %}
+							<li><a href="/eureka/about/">About</a></li> 
+						</ul>
+					</div>
+					<!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+		
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span3">
+					<div class="well sidebar-nav">
+							<ul class="nav nav-list">
+			                    <li></li>
+			                    <li></li>
+			                    {% block navbar %}
+			                    {% endblock %}
+			                </ul>
+			                						
+					   		<ul class="nav nav-list">
+				                <li class="nav-header">Find a Category</li>
+				                <form>
+					                <label></label>
+					                <li><input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" /></li>
+				                </form>
+				        	</ul>
+							{% if cat_list %}
+								<div id="cats">
+							 		{% include 'eureka/category_list.html' with cat_list=cat_list %}
+							  	</div>
+							{% endif %}
+				
+					</div>
+					<!-- /.well -->
+				</div>
+				<div class="span9">
+					{% block body_block %}
+					{% endblock %}
+				</div>
+				<!--/span-->
+			</div>
+			<!--/row-->
+		</div>
+		<!--/.fluid-container-->
+		<hr>
+			<footer>
+				<div class="container">
+					&copy; 2014. Iqbal Hussain. M.Tech (CSE). 12B81D5804. CVR College of Engineering, Hyd, IN.
+				</div>
+			</footer>
+			
+		<!-- JavaScript -->
+		<script type="text/javascript" src="{% static 'eureka/js/jquery-2.1.1.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'eureka/js/bootstrap.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'eureka/js/eureka-ajax.js' %}"></script>
+	</body>
+</html>

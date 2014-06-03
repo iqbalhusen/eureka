@@ -1,0 +1,23 @@
+{% extends 'eureka/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	About
+{% endblock %}
+
+{% block body_block %}
+	<div class="hero-unit">
+		This is <strong>Eureka's about page</strong>. <br>
+		{% if visits == 1 %}
+			You have visited this site <strong>only 1 time</strong>.
+		{% elif visits == 0 %}
+			You have <strong>NEVER visited this site</strong>.
+		{% else %}
+			You have visited this site <strong>{{ visits }} times</strong>.
+		{% endif %}
+		<br>
+		Here's my picture!<br>
+		<img alt="Picture of mine" src="{% static 'eureka/prof.jpg' %}">
+	</div>
+{% endblock %}
