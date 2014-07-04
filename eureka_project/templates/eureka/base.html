@@ -5,15 +5,12 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		
 		<!-- Bootstrap -->
-		
 		<link href="{% static 'eureka/css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
-    	<link href="{% static 'eureka/css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    	<link href="{% static 'eureka/css/bootstrap.css' %}" rel="stylesheet" media="screen">
     	<link href="{% static 'eureka/css/bootstrap-responsive.css' %}" rel="stylesheet">
+    	<link href="{% static 'eureka/css/articletab.css' %}" rel="stylesheet">
 		<link rel="shortcut icon" href="{% static 'eureka/img/eureka.ico'%}" />
-		
-		
 		
 		<title>
 			Eureka - 
@@ -27,18 +24,14 @@
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="brand" href="/eureka/">Eureka!</a>
-
+				
+					<!--  <a class="brand" href="/eureka/">Eureka!</a> -->
+					<a class="brand" href="/eureka/"><img src="{% static 'eureka/img/logo_passive.png' %}" height="19px" width="80px" onmouseover="this.src='{% static 'eureka/img/logo_active.png' %}'" onmouseout="this.src='{% static 'eureka/img/logo_passive.png' %}'" /></a>
+					
 					<div class="nav-collapse collapse">
 						<ul class="nav pull-right">
 							{% if user.is_authenticated %}
-								<li class="navbar-text">Welcome, {{ user.username }}!</li>
-								<li><a href="/eureka/profile">Profile</a></li>
+								<li><a href="/eureka/profile">{{ user.first_name }}</a></li>
 								<li><a href="/eureka/logout/">Logout</a></li>
 							{% else %}
 								<li><a href="/eureka/register/">Register</a></li>
@@ -47,13 +40,11 @@
 						</ul>
 						<ul class="nav">							
 							{% if user.is_authenticated %}
-								<!--   <li><a href="/eureka/restricted/">Restricted</a></li> -->
-								<li><a href="/eureka/add_category">Add Category</a></li>
+								<li><a href="/eureka/submit_manuscript">Submit Manuscript</a></li>
 							{% endif %}
 							<li><a href="/eureka/about/">About</a></li> 
 						</ul>
 					</div>
-					<!--/.nav-collapse -->
 				</div>
 			</div>
 		</div>
@@ -70,30 +61,32 @@
 			                </ul>
 			                						
 					   		<ul class="nav nav-list">
-				                <li class="nav-header">Find a Category</li>
-				                <form>
-					                <label></label>
-					                <li><input  class="search-query span10" type="text" name="suggestion" value="" id="suggestion" /></li>
+				                <li class="nav-header">Find an Article</li>
+				                <form id="search_article_form" method="post" action="/eureka/search_article/">
+				                	{% csrf_token %}
+					           		<li><input class="search-query span10" type="text" name="search_key" value="" id="search_key" placeholder="Search Keywords" /> <input type="submit" name="submit" value="Go" /></li>
 				                </form>
 				        	</ul>
+				        	
 							{% if cat_list %}
-								<div id="cats">
-							 		{% include 'eureka/category_list.html' with cat_list=cat_list %}
+							  	<div>
+							 		<ul class="nav nav-list">
+										{% for cat in cat_list %}
+									    	<li><a href="/eureka/category/{{ cat.url }}">{{ cat.name }}</a></li>
+									    {% endfor %} 
+									</ul>
 							  	</div>
 							{% endif %}
 				
 					</div>
-					<!-- /.well -->
 				</div>
 				<div class="span9">
 					{% block body_block %}
 					{% endblock %}
 				</div>
-				<!--/span-->
 			</div>
-			<!--/row-->
 		</div>
-		<!--/.fluid-container-->
+		
 		<hr>
 			<footer>
 				<div class="container">

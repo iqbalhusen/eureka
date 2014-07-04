@@ -1,0 +1,119 @@
+{% extends 'eureka/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	{{ user_pub.first_name }} {{ user_pub.last_name }}
+{% endblock %}
+
+{% block body_block %}
+	<style>
+		.prof-pic
+		{
+			background:transparent;
+			border:1px solid #888888;
+			box-shadow: 10px 10px 10px #484848;
+			float: right;
+			width: 160px;
+			height: 160px;
+			
+		}
+		
+		.thumb1
+		{ 
+			background: url({{ MEDIA_URL }}{{ user_profile.picture }}) no-repeat;
+			background-size: cover; 
+			background-position: center;
+			width: 150px;
+			height: 150px;
+			position: relative;
+    		top: 5px;
+			left: 5px
+		}
+	</style>
+
+	<div class="hero-unit">
+	
+		{% if user_pub and user_profile %}
+			<div class="prof-pic">
+				<div class="thumb1"></div>
+			</div>
+		
+			<h2><strong>{{ user_pub.first_name }} {{ user_pub.last_name }}</strong></h2><br>
+		
+			{% if user_profile.isOutsider == False %}
+				{% if user_profile.profession == 'ST' %}
+					{% if user_profile.ugorpg == 'UG' %}
+						Student of B.Tech<br>
+					{% elif user_profile.ugorpg == 'PG' %}
+						Student of M.Tech<br>
+					{% endif %}
+					{% if user_profile.dept %}
+						<strong>Branch:</strong> {{ user_profile.dept }}<br>
+					{% endif %}
+					{% if user_profile.idnum %}
+						<strong>Roll Number:</strong> {{ user_profile.idnum }}<br>
+					{% endif %}
+				{% elif user_profile.profession == 'AL' %}
+					Alumnus/alumna<br>
+					
+					{% if user_profile.year and user_profile.dept and user_profile.ugorpg %}
+					
+						Batch of {{ user_profile.year }}, 
+						{% if user_profile.ugorpg == 'UG' %}
+							B.Tech
+						{% elif user_profile.ugorpg == 'PG' %}
+							M.Tech
+						{% endif %}
+						 ({{ user_profile.dept }})<br>
+					{% endif %}
+					
+					{% if user_profile.exactprofession %}
+						<strong>Present Profession: </strong>{{ user_profile.exactprofession }}<br>
+					{% endif %}
+					{% if user_profile.place %}
+						<strong>Now Lives in: </strong>{{ user_profile.place }}<br>
+					{% endif %}
+					
+				{% elif user_profile.profession == 'LC' %}
+					Lecturer<br>
+					{% if user_profile.dept %}
+						<strong>Department: </strong>{{ user_profile.dept }}<br>
+					{% endif %}
+					
+				{% elif user_profile.profession == 'LS' %}
+					Library Staff<br>
+					{% if user_profile.exactprofession %}
+						<strong>Designation: </strong>{{ user_profile.exactprofession }}<br>
+					{% endif %}
+				{% elif user_profile.profession == 'AS' %}
+					Administrative Staff<br>
+					{% if user_profile.exactprofession %}
+						<strong>Designation: </strong>{{ user_profile.exactprofession }}<br>	
+					{% endif %}
+				{% elif user_profile.profession == 'MS' %}
+					Management Staff<br>
+					{% if user_profile.exactprofession %}	
+						<strong>Designation: </strong>{{ user_profile.exactprofession }}<br>
+					{% endif %}
+				{% elif user_profile.profession == 'OT' %}
+					{% if user_profile.exactprofession %}
+						<strong>Designation: </strong>{{ user_profile.exactprofession }}<br>
+					{% endif %}
+				{% endif %}
+				CVR College of Engineering<br>
+			{% else %}
+				{% if user_profile.exactprofession %}
+					<strong>Profession: </strong>{{ user_profile.exactprofession }}<br>
+				{% endif %}
+				{% if user_profile.place %}
+					<strong>Lives in: </strong>{{ user_profile.place }}<br>
+				{% endif %}
+			{% endif %}
+			<strong>Email: </strong><a href="mailto:{{ user_pub.email }}">{{ user_pub.email }}</a>
+		{% else %}
+			<strong>Sorry, the requested page is not available!</strong>
+		{% endif %}
+	</div>
+	
+{% endblock %}

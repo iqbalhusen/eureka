@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body_block %}
+
 <div class="hero-unit">
     <h3>Register with Eureka</h3>
     <br />
@@ -15,24 +16,132 @@
         	<p><a href="/eureka/login/">Login</a> when you are ready.</p>
         {% else %}
 	        <form class="form-signin span8" id="user_form" method="post" action="/eureka/register/" enctype="multipart/form-data">
-	            {% csrf_token %}
-	            <h4 class="form-signin-heading">Sign up Here</h4>
-	            <!-- Display each form here -->
+	            {% csrf_token %}	            
+				<table>
+					{% for field in user_form.visible_fields %}
+					<tr>
+						<td>
+							{{ field.help_text }}
+						</td>
+						<td>
+							{{ field }}
+						</td>
+						<td style="color:red">
+							{{ field.errors }}
+						</td>
+					</tr>
+					{% endfor %}
+					
+					<tr>
+						<td>
+							{{ profile_form.isOutsider.help_text }}
+						</td>
+						<td>
+							{{ profile_form.isOutsider }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.isOutsider.errors }}
+						</td>
+					</tr>
+					
+					<tr id="ins_prof">
+						<td>
+							{{ profile_form.profession.help_text }}
+						</td>
+						<td>
+							{{ profile_form.profession }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.profession.errors }}
+						</td>
+					</tr>
+					
+					<tr id="ins_stud-lec-lib-as-ms_id" style="display:none">
+						<td id="idnum">
+							{{ profile_form.idnum.help_text }}
+						</td>
+						<td>
+							{{ profile_form.idnum }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.idnum.errors }}
+						</td>
+					</tr>
+					
+					<tr id="ins_alum_year" style="display:none">
+						<td>
+							{{ profile_form.year.help_text }}
+						</td>
+						<td>
+							{{ profile_form.year }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.year.errors }}
+						</td>
+					</tr>
+					
+					<tr id="ins_stud-alum_ugpg" style="display:none">
+						<td>
+							{{ profile_form.ugorpg.help_text }}
+						</td>
+						<td>
+							{{ profile_form.ugorpg }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.ugorpg.errors }}
+						</td>
+					</tr>
+					
+					<tr id="ins_stud-alum-lec_depts" style="display:none">
+						<td>
+							{{ profile_form.dept.help_text }}
+						</td>
+						<td>
+							{{ profile_form.dept }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.dept.errors }}
+						</td>
+					</tr>
+					
+					<tr id="out-ins_alum-lib-as-ms-others_exact_prof" style="display:none">
+						<td id="exact_prof">
+							{{ profile_form.exactprofession.help_text }}
+						</td>
+						<td>
+							{{ profile_form.exactprofession }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.exactprofession.errors }}
+						</td>
+					</tr>
+					
+					<tr id="ins_alum-out_place" style="display:none">
+						<td>
+							{{ profile_form.place.help_text }}
+						</td>
+						<td>
+							{{ profile_form.place }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.place.errors }}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>
+							{{ profile_form.picture.help_text }}
+						</td>
+						<td>
+							{{ profile_form.picture }}
+						</td>
+						<td style="color:red">
+							{{ profile_form.picture.errors }}
+						</td>
+					</tr>
 	
-	            {% for field in user_form.visible_fields %}
-		            {{ field.errors }}
-		            {{ field.help_text }}<br />
-		            {{ field }}<br />
-	            {% endfor %}
-	
-	            {% for field in profile_form.visible_fields %}
-		            {{ field.errors }}
-		            {{ field.help_text }}<br />
-		            {{ field }}<br />
-	            {% endfor %}
-	
+	             </table>
 	            <br />
-	            <!-- Provide a button to click to submit the form. -->
 	            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
 	        </form>
         {% endif %}

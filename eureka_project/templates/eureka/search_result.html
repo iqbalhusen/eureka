@@ -1,0 +1,87 @@
+{% extends 'eureka/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	Search Result
+{% endblock %}
+
+{% block body_block %}
+
+	<div class="hero-unit">
+		<form id="adv_search_form" method="post" action="/eureka/search_article/">
+			{% csrf_token %}
+			<b>Advanced Search </b> 
+			<input class="search-query" type="text" name="adv_search_key" value="" id="adv_search_key" placeholder="Search Keywords" /> 
+			<select class="select-cat" id="cat" name="category">
+				<option value="" selected="selected">Select a category</option>
+				{% for cat in cat_list %}
+					<option value="{{ cat.name }}">{{ cat.name }}</option>
+				{% endfor %}
+			</select>
+			<input class="btn btn-primary" type="submit" name="submit" value="Search" />
+		</form>
+		<br>
+		<h2>Search Results</h2>
+		
+		{% if article_list %}
+			{% if total_articles == 1 %}
+				<h4>1 result found</h4>
+			{% else %}
+				<h4>{{ total_articles }} results found</h4>
+			{% endif %}
+			
+			<br>
+			<ul>
+				{% for article in article_list %}
+				<li>
+					<strong><a href="/eureka/category/{{ article.category_url }}/article/{{ article.id }}/">{{ article.title }}</a></strong><br>
+					<small>Published On: {{ article.publishedOn }}</small> | 
+					{% if article.views < 2 and article.likes < 2 %}
+						<small>View: {{ article.views }}, Like: {{ article.likes }}</small><br>
+					{% elif article.views < 2 and article.likes > 1 %}
+						<small>View: {{ article.views }}, Likes: {{ article.likes }}</small><br>
+					{% elif article.views > 1 and article.likes < 2 %}
+						<small>Views: {{ article.views }}, Like: {{ article.likes }}</small><br>
+					{% else %}
+						<small>Views: {{ article.views }}, Likes: {{ article.likes }}</small><br>
+					{% endif %}
+					<small>Category: <a href="/eureka/category/{{ article.category_url }}/">{{ article.category_name }}</a></small><br><br>
+				</li>
+				{% endfor %}
+			</ul>
+			
+		{% elif adv_article_list %}
+		
+			{% if total_articles == 1 %}
+				<h4>1 result found in Category: <a href="/eureka/category/{{ cat_url }}/">{{ cat_name }}</a></h4>
+			{% else %}
+				<h4>{{ total_articles }} results found in Category: <a href="/eureka/category/{{ cat_url }}/">{{ cat_name }}</a></h4>
+			{% endif %}
+			
+			<br><br>
+			<ul>
+				{% for article in adv_article_list %}
+				<li>
+					<strong><a href="/eureka/category/{{ cat_url }}/article/{{ article.id }}/">{{ article.title }}</a></strong><br>
+					<small>Published On: {{ article.publishedOn }}</small> | 
+					{% if article.views < 2 and article.likes < 2 %}
+						<small>View: {{ article.views }}, Like: {{ article.likes }}</small><br>
+					{% elif article.views < 2 and article.likes > 1 %}
+						<small>View: {{ article.views }}, Likes: {{ article.likes }}</small><br>
+					{% elif article.views > 1 and article.likes < 2 %}
+						<small>Views: {{ article.views }}, Like: {{ article.likes }}</small><br>
+					{% else %}
+						<small>Views: {{ article.views }}, Likes: {{ article.likes }}</small><br>
+					{% endif %}
+					<br>
+				</li>
+				{% endfor %}
+			</ul>
+			
+		{% else %}
+			<h4>Sorry, we couldn't find any result with the keyword(s) you had entered!</h4>
+		{% endif %}
+	</div>
+	
+{% endblock %}

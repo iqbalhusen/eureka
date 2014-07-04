@@ -1,0 +1,97 @@
+{% extends 'eureka/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	{{ category_name }} : {{ article.title }}
+{% endblock %}
+
+{% block body_block %}
+	<style>
+		.thumb1
+		{ 
+			background: url({{ MEDIA_URL }}{{ author_profile.picture }}) no-repeat;
+			background-size: cover; 
+			background-position: center;
+			width: 70px;
+			height: 70px;
+			float: left;
+		}
+	</style>
+	
+	<script>
+		window.onload=function()
+		{
+			setTimeout(function()
+			{
+				var articleid = {{ article.id }};		
+				$.get('/eureka/view_article/', {article_id: articleid}, function(data)
+				{
+					$('#view_count').html(data);
+				});
+			}, 10000);
+		}
+	</script>
+	
+	<div class="hero-unit">
+		{% if article %}
+			<a href="/eureka/category/{{ category_name_url }}/">{{ category_name }}</a> > <a href="/eureka/category/{{ category_name_url }}/archive/{{ article.volume }}/{{ article.issue }}/">Volume {{ article.volume }}, Issue {{ article.issue }}</a> <br>
+			<h2> {{ article.title }} </h2>		
+			<p>
+				<h4><b id="like_count">{{ article.likes }}</b> people like this article | Viewed <b id="view_count">{{ article.views }}</b> times</h4>
+				{% if user.is_authenticated %}	
+					{% if not isLiked %}
+						<button id ="like_article" data-articleid="{{ article.id }}" data-userid="{{ user.id }}" class="btn btn-mini btn-primary" type="button">Like</button>
+						<h5 id="just_liked_article" style="display:none">Liked</h5>
+					{% else %}
+						<h5 id="unliked_article">You like this article <button id ="unlike_article" data-articleid="{{ article.id }}" data-userid="{{ user.id }}" class="btn btn-mini btn-primary" type="button">Unlike</button> </h5>
+						<h5 id="just_unliked_article" style="display:none">Unliked</h5>
+					{% endif %}
+				{% endif %}
+			</p>
+			<br>
+			<div class="tabs">
+			    <ul class="tab-links">
+			        <li class="active"><a href="#tab1">Abstract</a></li>
+			        <li><a href="#tab2">Uploaded by</a></li>
+			        <li><a href="#tab3">Keywords</a></li>
+			        {% if user.is_authenticated %}
+			        	<li class="logged-in"><a href="{{ MEDIA_URL }}{{ article.pdf }}" target="_blank"><img alt="pdf" src="{% static 'eureka/img/adobe.png' %}" height="30" width="30"> Download Full Text</a></li>
+			        {% else %}
+			        	<li class="not-logged-in"><a href="/eureka/login/">Log in to download Full Text</a></li>
+			        {% endif %}
+			    </ul>
+ 
+			    <div class="tab-content">
+			        <div id="tab1" class="tab active">
+			            <p>{{ article.abstract }}</p>
+			            <br><br>
+			            <strong>Published in:</strong><br>
+			            <a href="/eureka/category/{{ category_name_url }}/">{{ category_name }}</a> (<a href="/eureka/category/{{ category_name_url }}/archive/{{ article.volume }}/{{ article.issue }}/">Volume {{ article.volume }}, Issue {{ article.issue }}</a>)<br>
+			        	<strong>Date of Publication:</strong><br>
+			        	{{ article.publishedOn }}
+			        </div>
+			 
+			        <div id="tab2" class="tab">
+			            <p>
+							<div class="thumb1"></div>&nbsp;<strong><a href="/eureka/{{ author.username }}">{{ author.first_name }} {{ author.last_name }}</a></strong>
+						</p>
+			        </div>
+			 
+			        <div id="tab3" class="tab">
+			            <p>
+			            	<ul>
+								{% for x in keywords %}
+									<li>{{ x }}</li>
+								{% endfor %}
+							</ul>
+						</p>         
+			        </div>
+			    </div>
+			</div>
+		
+	   	{% else %}
+	    	Sorry, we couldn't find an article with the ID you provided!
+	  	{% endif %}
+	</div>
+{% endblock %}

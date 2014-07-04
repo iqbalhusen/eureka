@@ -1,0 +1,100 @@
+{% extends 'eureka/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	{{ category_name }} : Popular
+{% endblock %}
+
+{% block body_block %}
+	<style>
+		div.paginationheader 
+		{
+			border-top: 1px solid #d0eaf8;
+			border-bottom: 1px solid #d0eaf8;
+			width: 100%;
+			margin: 4px 0;
+			background: url("{% static 'eureka/img/pagination.gif' %}") repeat-x;
+		}
+		div.pagnSep 
+		{
+			padding: 0 2px;
+		}
+	</style>
+
+	<div class="hero-unit">
+		<h2> {{ category_name }} </h2>
+		
+		{% if category %}
+			<p>
+				<h4><b id="like_count">{{ category.likes }}</b> people like this category | Viewed <b id="view_count">{{ category.views }}</b> times</h4>
+				{% if user.is_authenticated %}
+					{% if not isLiked %}
+						<button id ="likes" data-catid="{{category.id}}" data-userid="{{ user.id }}" class="btn btn-mini btn-primary" type="button">Like</button>
+						<h5 id="just_liked" style="display:none">Liked</h5>
+					{% else %}
+						<h5 id="you_unliked">You like this category <button id ="unlike" data-catid="{{category.id}}" data-userid="{{ user.id }}" class="btn btn-mini btn-primary" type="button">Unlike</button> </h5>
+						<h5 id="just_unliked" style="display:none">Unliked</h5>
+					{% endif %}
+				{% endif %}
+			</p>
+			<br>
+
+			<div class="tabs">
+			    <ul class="tab-links">
+			        <li><a href="/eureka/category/{{ category_name_url }}/"><img alt="Home" src="{% static 'eureka/img/home.png' %}" height="30" width="30"></a></li>
+			        <li class="active"><a>Popular</a></li>
+			        <li><a  href="/eureka/category/{{ category_name_url }}/current_issue/">Current Issue</a></li>
+			        <li><a href="/eureka/category/{{ category_name_url }}/archive/">Archive</a></li>
+			    </ul>
+			 
+			    <div class="tab-content">
+			    	<strong><h3>Popular Articles</h3></strong><br>
+					{% if article_list_popular %}
+						<ul>
+						    {% for article in article_list_popular %}
+					           	<li>
+					           		<a href="/eureka/category/{{ category_name_url }}/article/{{ article.id }}/">{{ article.title }}</a><br>
+					           		{% if article.views < 2 and article.likes < 2 %}
+					            		<small>View: {{ article.views }}, Like: {{ article.likes }}</small><br>
+					            	{% elif article.views < 2 and article.likes > 1 %}
+					            		<small>View: {{ article.views }}, Likes: {{ article.likes }}</small><br>
+					            	{% elif article.views > 1 and article.likes < 2 %}
+					            		<small>Views: {{ article.views }}, Like: {{ article.likes }}</small><br>
+					            	{% else %}
+					            		<small>Views: {{ article.views }}, Likes: {{ article.likes }}</small><br>
+					            	{% endif %}
+					            	<small>Published On: {{ article.publishedOn }}</small> <br><br>				            	
+					            </li>
+					       	{% endfor %}
+					        </ul>
+					        
+				        	<div class="paginationheader" style="text-align: center">
+				        		<span class="step-links">
+							        {% if article_list_popular.has_previous %}
+							      		<a href="?page={{ article_list_popular.previous_page_number }}">« Previous</a>
+							        	<span class="pagnSep">|</span>
+							        {% endif %}
+									<span class="current">
+							            Page {{ article_list_popular.number }} of {{ article_list_popular.paginator.num_pages }}
+							        </span>
+									
+							        {% if article_list_popular.has_next %}
+							        		<span class="pagnSep">|</span>
+							            	<a href="?page={{ article_list_popular.next_page_number }}">Next »</a>
+							   		{% endif %}
+							    </span>
+							</div>
+				        	<br style="clear:both" />
+				        	
+			    		{% else %}
+			    			<strong>Sorry, we have no article to show here up! May be you should read and like some articles!</strong>
+			    		{% endif %}
+			    </div>
+			</div>
+
+	   	{% else %}
+	    	The specified category {{ category_name }} does not exist!
+	  	{% endif %}
+	</div>
+{% endblock %}

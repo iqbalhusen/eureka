@@ -91,7 +91,6 @@ USE_TZ = True
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/eureka')
 MEDIA_URL = '/media/eureka/'
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -102,6 +101,3 @@ STATICFILES_DIRS = (
 
 #URL for login_required
 LOGIN_URL = '/eureka/login/'
-
-#http://django-registration.readthedocs.org/ days to activate account via email
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.

@@ -7,17 +7,71 @@
 {% endblock %}
 
 {% block body_block %}
+	<style>
+		.prof-pic
+		{
+			background:transparent;
+			border:1px solid #888888;
+			box-shadow: 10px 10px 10px #484848;
+			float: right;
+			width: 160px;
+			height: 160px;
+			
+		}
+		
+		.thumb1
+		{ 
+			background: url({% static 'eureka/img/about.jpg' %}) no-repeat;
+			background-size: cover; 
+			background-position: center;
+			width: 150px;
+			height: 150px;
+			position: relative;
+    		top: 5px;
+			left: 5px
+		}
+	</style>
+	
 	<div class="hero-unit">
-		This is <strong>Eureka's about page</strong>. <br>
-		{% if visits == 1 %}
-			You have visited this site <strong>only 1 time</strong>.
-		{% elif visits == 0 %}
-			You have <strong>NEVER visited this site</strong>.
-		{% else %}
-			You have visited this site <strong>{{ visits }} times</strong>.
-		{% endif %}
-		<br>
-		Here's my picture!<br>
-		<img alt="Picture of mine" src="{% static 'eureka/prof.jpg' %}">
+		<h2>About <img src="{% static 'eureka/img/logo1.png' %}" height="28px" width="120px"/></h2>
+		This is an e-journal web application of CVR College of Engineering, Hyderabad, IN. It has been developed as part of the final year project in order to obtain the award of Master of Technology degree.
+		<br><br>
+		<h3>Brief Developer Profile</h3>
+		<div class="prof-pic">
+			<div class="thumb1"></div>
+		</div>
+		<h4>Iqbal Hussain</h4>
+		Student of M.Tech<br>
+		<b>Branch:</b> Computer Science and Engineering (CSE)<br> 
+		<b>Roll Number: </b>12B81D5804<br>
+		CVR College of Engineering<br>
+		<b>Email:</b> <a href="mailto:lincoln@live.in">lincoln@live.in</a>
+		<br><br>
+		<h3>Technologies used in the application</h3>
+		<ul>
+			<li>
+				<b>Client-side:</b>
+				<ul>
+					<li>HTML5</li>
+					<li>CSS3</li>
+					<li>JavaScript</li>
+					<li>jQuery 2.1.1</li>
+					<li>AJAX</li>
+				</ul>
+			</li>
+			<li>
+				<b>Server-side:</b>
+				<ul>
+					<li>Language: Python 2.7.6</li>
+					<li>Web application framework: Django 1.6.5</li>
+					<li>Database: SQLite 3.8.4.3</li>
+				</ul>
+			</li>
+			<li><b>IDE:</b> Eclipse 4.3.2 (Kepler) with PyDev plug-in</li>
+			<li><b>Operating System:</b> Linux (Ubuntu 14.04)</li>
+		</ul>
+		<b>Nota Bene: </b>While choosing the technologies, utter preference was given to the free and open-source (i.e. nonproprietary) softwares.
+		<br><br>
+		<b>GitHub repository URI: <a href="https://github.com/iqbalhusn/eureka" target="_blank">https://github.com/iqbalhusn/eureka</a></b>
 	</div>
 {% endblock %}
